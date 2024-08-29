@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="container my-5">
-        <h2>List of Orders</h2>
         <a class="btn btn-primary" href="/create.php" role="button">New Order</a>
         <br>
         <table class="table">
@@ -60,8 +59,8 @@
                             <td>$row[status]</td>
                             <td>$row[created_at]</td>
                             <td>
-                                <a class='btn btn-primary btn-sm' href='/edit.php?id=$row[no]'>Edit</a>
-                                <a class='btn btn-danger btn-sm' href='/delete.php?id=$row[no]'>Delete</a>
+                                <a class='btn btn-primary btn-sm' href='/edit.php?no=$row[no]'>Edit</a>
+                                <a class='btn btn-danger btn-sm' href='/delete.php?no=$row[no]'>Delete</a>
                             </td>
                         </tr>    
                         ";

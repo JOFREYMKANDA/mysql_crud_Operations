@@ -1,4 +1,16 @@
 <?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "root";
+    $database = "furaha_ebooks";
+
+    $connection = new mysqli ($servername, $username, $password, $database);
+
+    if ($connection -> connect_error) {
+        die ("Connection Failed " . $connection -> connect_error );
+    }
+
+
     $name = "";
     $books = "";
     $contacts = "";
@@ -24,12 +36,22 @@
         $status = $_POST['status'];
 
         do {
-            if (empty($name)) {
+            if (empty($name) || empty($contacts)) {
                 $error_message = "Fill the required fields";
                 break;
             }
 
             //Adding a new order
+
+            $sql = "INSERT INTO orders (name, books, contacts, delivery_location, delivery_time, delivery_fee, books_price, total, status, created_at)" .
+                    "VALUES ('$name', '$books', '$contacts', '$delivery_location', '$delivery_time', '$delivery_fee', '$books_price', '$total', '$status', NOW())";
+
+                    $results = $connection -> query($sql);
+
+                    if (empty($results)) {
+                        $error_message = "Invalid query ". $connection->error;
+                        break;
+                    }
 
             $name = "";
             $books = "";
@@ -42,6 +64,9 @@
             $status = "";
 
             $success_message = "Order added successfull";
+
+            header("location:/index.php");
+            exit;
         } while (false);
     }
 
@@ -59,7 +84,6 @@
 <body>
     <div class="container my-5">
         <h2>New Order</h2>
-
         <?php
             if (!empty($error_message)) {
                 echo "
@@ -75,7 +99,7 @@
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Customer name</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="name" value='<?php echo $name;?>'>
+                    <input type="text" class="form-control" name="name" value="<?php echo $name;?>">
                 </div>
             </div>
 
